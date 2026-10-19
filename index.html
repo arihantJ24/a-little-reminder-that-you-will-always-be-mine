@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Road</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4a2a2a;--muted:#8a645c;--accent:#ff5e6c;--gold:#f7a94b;--card:#fffaf6}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);overflow-x:hidden;
+  background:linear-gradient(180deg,#fff4ec 0%,#ffe4d4 30%,#ffcdb8 65%,#f6a597 90%,#e98a8f 100%)}
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 24px 96px;position:relative;overflow:hidden}
+.sun{position:absolute;top:14%;width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,#ffe0b0 0%,#ffa47e 55%,#ff6f6f 100%);box-shadow:0 0 140px 30px #ffb08a88;
+  animation:rise 2.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{transform:translateY(160px) scale(.8);opacity:0}to{transform:none;opacity:.8}}
+.hero>*:not(.sun){position:relative;z-index:1}
+.eyebrow{letter-spacing:.3em;text-transform:uppercase;font-size:.75rem;color:var(--muted);animation:up 1s .4s both}
+.hero h1{font-family:Fraunces,serif;font-weight:600;font-size:clamp(2.8rem,9vw,6rem);line-height:1.02;margin:.3em 0;animation:up 1.1s .6s both}
+.hero h1 em{color:var(--accent);font-weight:400}
+.sub{font-size:1.05rem;color:var(--muted);animation:up 1s .9s both}
+.counter{margin-top:28px;padding:10px 22px;border-radius:999px;background:#ffffffaa;backdrop-filter:blur(6px);font-size:.95rem;animation:up 1s 1.1s both}
+.counter b{font-family:Fraunces,serif;font-size:1.3rem;color:var(--accent)}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.hint{margin-top:40px;font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:6px;animation:up 1s 1.6s both}
+.hint i{width:22px;height:34px;border:2px solid var(--muted);border-radius:12px;position:relative}
+.hint i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:var(--muted);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+@media (max-width:430px){
+  .hero{min-height:100svh}
+  .hint{position:static;bottom:auto;margin-top:44px}
+}
+/* ROAD */
+.road{position:relative;max-width:1100px;margin:0 auto;padding:12vh 0 18vh}
+.route{position:absolute;inset:0;pointer-events:none;z-index:1}
+.route .ghost{fill:none;stroke:#4a2a2a22;stroke-width:4;stroke-dasharray:2 12;stroke-linecap:round}
+.route .trail{fill:none;stroke:url(#g);stroke-width:6;stroke-linecap:round}
+.pin{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:3px solid var(--gold);z-index:2;transition:all .5s cubic-bezier(.3,1.6,.5,1)}
+.pin.on{background:var(--accent);border-color:#fff;transform:scale(1.35);box-shadow:0 0 0 8px #ff5e6c33}
+#marker{position:absolute;left:0;top:0;z-index:3;width:38px;height:38px;will-change:transform}
+#marker svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px #c0303066);animation:beat 1.2s infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(.98)}45%{transform:scale(1.1)}}
+.stop{position:relative;z-index:2;min-height:78vh;display:flex;align-items:center;padding:0 4%}
+.stop.right{justify-content:flex-end}
+.card{width:36%;background:var(--card);border-radius:22px;padding:14px 14px 24px;box-shadow:0 30px 60px -25px #8a2b2b55;
+  opacity:0;transform:translateX(-80px) rotate(-5deg);transition:opacity .9s ease,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.stop.right .card{transform:translateX(80px) rotate(5deg)}
+.stop.in .card{opacity:1;transform:rotate(-1deg)}
+.stop.right.in .card{transform:rotate(1deg)}
+.photo{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#ffd6bf,#ff9c8c)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.2);transition:transform 2s cubic-bezier(.2,.8,.2,1)}
+.stop.in .photo img{transform:scale(1)}
+.stop:nth-of-type(3) .photo,.stop:nth-of-type(4) .photo{aspect-ratio:3/4}
+.ph{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase}
+.ph svg{width:40px;opacity:.9}
+.meta{display:flex;justify-content:space-between;align-items:center;margin:16px 6px 6px;font-size:.78rem;color:var(--muted)}
+.date{background:#ffe6dc;color:var(--accent);padding:4px 10px;border-radius:999px;font-weight:500}
+.card h3{font-family:Fraunces,serif;font-size:1.55rem;font-weight:600;margin:8px 6px 6px}
+.card p{margin:0 6px;line-height:1.55;color:#6b4a44}
+/* FINALE */
+.finale{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#fff}
+.finale h2{font-family:Fraunces,serif;font-size:clamp(2.4rem,7vw,4.6rem);font-weight:600}
+.finale h2 em{font-weight:400}
+.finale p{max-width:520px;margin:18px auto 30px;line-height:1.6;font-size:1.05rem;opacity:.95}
+.finale button{margin-top:32px;font:500 1rem Inter,sans-serif;padding:16px 30px;border:0;border-radius:999px;background:#fff;color:var(--accent);cursor:pointer;box-shadow:0 12px 30px -10px #8a2b2b88;transition:transform .2s}
+.finale button:hover{transform:translateY(-2px) scale(1.03)}
+/* LETTER */
+.letter-sec{display:flex;flex-direction:column;align-items:center;padding:4vh 16px 18vh}
+.letter-sec h3{font-family:Caveat,cursive;font-size:clamp(1.8rem,4vw,2.4rem);color:#fff;font-weight:600;margin-bottom:28px}
+.mail{--h:230px;position:relative;width:min(520px,100%);padding-bottom:14px;filter:drop-shadow(0 30px 34px #8a2b2b40)}
+.mail .slot{position:relative;z-index:2;margin:0 6%;overflow:hidden}
+.mail .paper{background:#fffaf6;border-radius:6px;padding:26px 28px calc(var(--h) + 4px);font-family:Caveat,cursive;font-size:clamp(1.35rem,2.6vw,1.6rem);line-height:1.4;color:var(--ink);
+  transform:translateY(100%);transition:transform 1.3s cubic-bezier(.2,.8,.2,1) .55s}
+.mail .paper .sign{display:block;text-align:right;color:var(--accent);margin-top:8px}
+.mail .back,.mail .front,.mail .flap{position:absolute;left:0;right:0;bottom:0;height:var(--h)}
+.mail .back{z-index:0;background:#f2b19c;border-radius:6px}
+.mail .front{z-index:3;background:linear-gradient(180deg,#ffd9c7,#ffc9b3);border-radius:0 0 6px 6px;clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%)}
+.mail .flap{bottom:auto;top:calc(100% - var(--h));height:calc(var(--h) * .58);z-index:4;background:#f7bea8;clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;transform:perspective(900px) rotateX(0);transition:transform .7s ease,z-index 0s .35s}
+.mail.open .flap{transform:perspective(900px) rotateX(180deg);z-index:1}
+.mail.open .paper{transform:none}
+@media (max-width:720px){.mail{--h:180px}.mail .paper{padding:20px 20px calc(var(--h) + 4px)}}
+/* TEASE LAYER */
+.tease{position:absolute;top:50%;width:34%;transform:translateY(-50%) rotate(-3deg);font-family:Caveat,cursive;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.2;color:#b8414b;min-height:1.2em}
+.stop.left .tease{right:5%}.stop.right .tease{left:5%;transform:translateY(-50%) rotate(3deg)}
+.tease .caret{display:inline-block;width:2px;height:1em;background:currentColor;margin-left:3px;vertical-align:-.12em;animation:blink .8s infinite}
+@keyframes blink{50%{opacity:0}}
+.photo{position:relative}
+.secret-tag{position:absolute;top:10px;right:10px;z-index:2;background:#fff;color:var(--accent);font-size:.72rem;font-weight:500;padding:6px 10px;border-radius:999px;box-shadow:0 4px 12px #0002;animation:nudge 1.8s infinite}
+@keyframes nudge{0%,70%,100%{transform:none}78%{transform:rotate(-8deg) scale(1.08)}86%{transform:rotate(8deg) scale(1.08)}}
+.has-secret .photo{cursor:pointer}
+.secret{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;
+  background:linear-gradient(135deg,#ff5e6c,#f7a94b);color:#fff;font-family:Caveat,cursive;font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.25;
+  clip-path:circle(0 at var(--x,50%) var(--y,50%));transition:clip-path .7s cubic-bezier(.3,.8,.3,1)}
+.photo.open .secret{clip-path:circle(150% at var(--x,50%) var(--y,50%))}
+.photo.open .secret-tag{display:none}
+.poll{margin:16px 6px 0;padding:14px;border-radius:14px;background:#fff1ea;position:relative;min-height:96px}
+.poll b{display:block;font-family:Fraunces,serif;font-size:1.05rem;margin-bottom:10px}
+.poll button{font:500 .9rem Inter,sans-serif;padding:9px 16px;border-radius:999px;border:0;cursor:pointer;margin-right:8px;transition:left .25s,top .25s}
+.poll .yes{background:var(--accent);color:#fff}
+.poll .no{background:#fff;color:var(--ink);position:relative}
+.poll .ans{font-family:Caveat,cursive;font-size:1.5rem;color:var(--accent)}
+.meter{position:fixed;right:16px;bottom:16px;z-index:40;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:999px;background:#fffaf6ee;
+  backdrop-filter:blur(6px);box-shadow:0 10px 30px -12px #8a2b2b66;font-size:.82rem;opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s;pointer-events:none}
+.meter.show{opacity:1;transform:none}
+.meter svg{width:34px;height:34px}
+.meter .lbl{font-weight:500;color:var(--accent);display:block}
+.meter small{color:var(--muted)}
+.meter.pop svg{animation:beat .9s}
+.found{margin-top:18px;font-family:Caveat,cursive;font-size:1.7rem;opacity:0;transition:opacity 1s}
+.found.show{opacity:1}
+.burst{position:fixed;pointer-events:none;z-index:50;width:24px;height:24px}
+/* AMBIENT LOVE */
+.sky{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.sky span{position:absolute;bottom:-60px;line-height:1;opacity:0;will-change:transform;animation:floatUp linear infinite}
+.sky svg{width:100%;height:100%;display:block}
+@keyframes floatUp{
+  0%{transform:translateY(0) translateX(0) rotate(-8deg);opacity:0}
+  10%{opacity:.45}
+  50%{transform:translateY(-55vh) translateX(22px) rotate(8deg);opacity:.3}
+  100%{transform:translateY(-112vh) translateX(-14px) rotate(-10deg);opacity:0}
+}
+.hero .sparkle{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;z-index:0;
+  box-shadow:0 0 10px 2px #ffd9a8;animation:twinkle 2.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.9;transform:scale(1)}}
+@media (max-width:720px){
+  .stop,.stop.right{min-height:auto;margin:16vh 0;padding:0 16px;flex-direction:column;justify-content:center}
+  .stop{align-items:flex-start}
+  .stop.right{align-items:flex-end}
+  .card,.stop.right .card{width:min(74%,290px);padding:10px 10px 18px}
+  .card h3{font-size:1.25rem}
+  .card p{font-size:.88rem}
+  .tease,.stop.left .tease,.stop.right .tease{position:static;width:min(74%,290px);margin:0 0 12px;font-size:1.35rem}
+  .stop.left .tease{transform:rotate(-2deg)}
+  .stop.right .tease{transform:rotate(2deg);text-align:right}
+  .meter{right:12px;bottom:12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sun"></div>
+  <span class="eyebrow">Together for 590 days till forever.</span>
+  <h1 id="names"></h1>
+  <div class="counter">Together for <b id="days">0</b> days till forever.</div>
+  <div class="hint"><i></i>scroll</div>
+</header>
+
+<main class="road" id="road">
+  <svg class="route"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7a94b"/><stop offset="1" stop-color="#ff5e6c"/></linearGradient></defs><path class="ghost"/><path class="trail"/></svg>
+  <div id="marker"><svg viewBox="0 0 24 24"><path fill="#ff5e6c" stroke="#fff" stroke-width="1.5" d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.6 5c2.1 0 3.6 1.2 5.4 3.2C13.8 6.2 15.3 5 17.4 5 21 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg></div>
+</main>
+
+<section class="finale">
+  <h2>Next stop: <em>forever</em></h2>
+  <button id="love">Tap if you're coming with me</button>
+  <div class="found" id="found"></div>
+</section>
+
+<section class="letter-sec">
+  <h3>there's a letter for you</h3>
+  <div class="mail" id="mail">
+    <div class="back"></div>
+    <div class="flap"></div>
+    <div class="slot"><div class="paper">
+      Dear <span id="letterTo"></span>,<br>
+      Even with all these kilometres between us, you are still the first thing I think of in the morning and the last thing at night. This distance is just one long stretch of our road, and I would drive every bit of it to get back to you. I love you.
+      <span class="sign">Yours, <span id="letterFrom"></span></span>
+    </div></div>
+    <div class="front"></div>
+  </div>
+</section>
+
+<div class="meter" id="meter">
+  <svg viewBox="0 0 24 24"><defs><clipPath id="lv"><rect id="lvRect" x="0" y="24" width="24" height="24"/></clipPath></defs>
+    <path fill="#ffe1d8" d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.6 5c2.1 0 3.6 1.2 5.4 3.2C13.8 6.2 15.3 5 17.4 5 21 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z"/>
+    <path clip-path="url(#lv)" fill="#ff5e6c" d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.6 5c2.1 0 3.6 1.2 5.4 3.2C13.8 6.2 15.3 5 17.4 5 21 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>
+  <div><span class="lbl" id="lvLabel">Just curious</span><small id="lvSecrets"></small></div>
+</div>
+
+<script>
+/* ======= EDIT THIS PART ======= */
+const CONFIG = { me: "Arihant", her: "Priyanka", startDate: "2025-03-08" }; // YYYY-MM-DD
+// photo: "photos/01.jpg" once you add pictures
+// tease: handwritten line typed out beside the stop (gets cheekier as she scrolls)
+// secret: hidden note revealed when she taps the photo
+// poll: true -> playful "who was right?" question with a button that runs away
+const STOPS = [
+  { date:"March 2025", title:"That rapido driver moment.", place:"Maidan", caption:"The moment I saw you for the first time, I got lost in your eyes, and that was enough to make me fall in love with you.", photo:"phots/01.JPG",
+    tease:"Keep scrolling. It only gets better from here." },
+  { date:" 13 March 2025", title:"Our first date", place:"That new look that make you impress", caption:"The cafe that we went and took pizza light dinner.", photo:"phots/02.jpg",
+    tease:"Psst… tap this photo. A few of them hide secrets.",
+    secret:"I just thinking about even though i came in driver looks still you agree for the next meet.." },
+   
+    { date:"14th April 2025", title:"when you said yes", place:"my heart", caption:"My favourite moment, and there's no photo of it. Some things live only in the heart.", photo:"phots/03.jpg",
+    tease:"Okay, this one is my favourite moment just i dont have picture only is that moment..",
+    secret:"This day will always be special to me. It's the day our relationship started.." },
+  { date:"June 2025", title:"Our first trip", place:"The Digha Beach", caption:"That hapiness while been swimming together dance and happiness before the start of your long distance..", photo:"phots/04.jpg",
+    tease:"You're smiling right now. Don't deny it.",
+    secret:"The trip I did so much zid for, and we finally made it happen..." },
+  { date:"Today", title:"Still here", place:"Even though we're long distance", caption:"You're still in my heart, and you always will be..", photo:"phots/05.JPG",
+    tease:"Let's stay happy and together, like we always are." },
+];
+const MOODS = ["Just curious", "Okay, smiling", "Definitely blushing", "Heart racing", "Completely yours"];
+/* ============================== */
+
+document.getElementById('names').innerHTML = `${CONFIG.me} <em>&amp;</em> ${CONFIG.her}`;
+const totalDays = Math.max(0, Math.floor((Date.now() - new Date(CONFIG.startDate)) / 864e5));
+(function count(t0){ const step=t=>{ t0??=t; const k=Math.min(1,(t-t0)/2200); document.getElementById('days').textContent=Math.round(totalDays*(1-Math.pow(1-k,3))).toLocaleString(); if(k<1) requestAnimationFrame(step); }; setTimeout(()=>requestAnimationFrame(step),1200); })();
+
+const cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+const road = document.getElementById('road'), svg = road.querySelector('svg'),
+      ghost = svg.querySelector('.ghost'), trail = svg.querySelector('.trail'), marker = document.getElementById('marker');
+
+const stops = STOPS.map((s,i) => {
+  const el = document.createElement('article');
+  el.className = 'stop ' + (i % 2 ? 'right' : 'left') + (s.secret ? ' has-secret' : '');
+  el.innerHTML = `${s.tease ? '<div class="tease"></div>' : ''}<div class="card"><div class="photo">${s.photo ? `<img src="${s.photo}" alt="${s.title}" loading="lazy">` : `<div class="ph">${cam}<span>Photo ${i+1}</span></div>`}
+      ${s.secret ? `<span class="secret-tag">tap me</span><div class="secret">${s.secret}</div>` : ''}</div>
+    <div class="meta"><span class="date">${s.date}</span><span>${s.place}</span></div><h3>${s.title}</h3><p>${s.caption}</p>
+    ${s.poll ? `<div class="poll"><b>So… who was right?</b><button class="yes">Me, obviously</button><button class="no">${CONFIG.me}</button></div>` : ''}</div>`;
+  road.appendChild(el); return el;
+});
+
+/* typed teaser lines */
+function typeOut(el, text){
+  el.innerHTML = '<span></span><i class="caret"></i>'; const span = el.firstChild; let k = 0;
+  const t = setInterval(() => { span.textContent = text.slice(0, ++k); if (k >= text.length){ clearInterval(t); setTimeout(() => el.querySelector('.caret')?.remove(), 1500); } }, 45);
+}
+
+/* hidden secrets */
+const totalSecrets = STOPS.filter(s => s.secret).length, found = new Set();
+const secretsLabel = () => document.getElementById('lvSecrets').textContent = `Secrets found ${found.size}/${totalSecrets}`;
+secretsLabel();
+stops.forEach((el,i) => {
+  if (!STOPS[i].secret) return;
+  const ph = el.querySelector('.photo');
+  ph.addEventListener('click', e => {
+    const r = ph.getBoundingClientRect();
+    ph.style.setProperty('--x', (e.clientX - r.left) + 'px'); ph.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    ph.classList.toggle('open'); found.add(i); secretsLabel(); popMeter();
+  });
+});
+
+/* runaway poll button */
+document.querySelectorAll('.poll').forEach(poll => {
+  const no = poll.querySelector('.no'), yes = poll.querySelector('.yes'); let dodges = 0;
+  const run = e => {
+    e.preventDefault(); dodges++;
+    const maxX = poll.clientWidth - no.offsetWidth - 20, maxY = poll.clientHeight - no.offsetHeight - 10;
+    no.style.position = 'absolute'; no.style.left = (10 + Math.random()*maxX) + 'px'; no.style.top = (10 + Math.random()*maxY) + 'px';
+    if (dodges === 4) no.textContent = 'nope';
+    if (dodges === 7) no.textContent = 'just pick "Me"';
+  };
+  no.addEventListener('mouseenter', run); no.addEventListener('touchstart', run, {passive:false}); no.addEventListener('click', run);
+  yes.addEventListener('click', () => { poll.innerHTML = '<span class="ans">Correct. You\'re always right. (Mostly.)</span>'; popMeter(); });
+});
+
+/* love meter */
+const meter = document.getElementById('meter'), lvRect = document.getElementById('lvRect'), lvLabel = document.getElementById('lvLabel');
+function popMeter(){ meter.classList.remove('pop'); void meter.offsetWidth; meter.classList.add('pop'); }
+function updateMeter(p, visible){
+  meter.classList.toggle('show', visible);
+  const fillP = Math.min(1, p*0.85 + found.size*0.05);
+  lvRect.setAttribute('y', 24 - 20*fillP - 3);
+  const mood = MOODS[Math.min(MOODS.length-1, Math.floor(fillP * MOODS.length))];
+  if (lvLabel.textContent !== mood){ lvLabel.textContent = mood; popMeter(); }
+}
+const pins = stops.map(() => { const p = document.createElement('div'); p.className = 'pin'; road.appendChild(p); return p; });
+const pinY = [];
+let len = 0;
+
+function layout(){
+  const W = road.clientWidth, H = road.clientHeight, mobile = W < 720;
+  svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const pts = [[W/2, 0]];
+  stops.forEach((st,i) => {
+    const y = st.offsetTop + st.offsetHeight/2;
+    const x = mobile ? (i%2 ? 36 : W - 36) : W * (i%2 ? 0.58 : 0.42);
+    pts.push([x,y]); pinY[i] = y;
+    pins[i].style.left = x+'px'; pins[i].style.top = y+'px';
+  });
+  pts.push([W/2, H]);
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i],m=(y1-y0)/2; d += ` C${x0} ${y0+m} ${x1} ${y1-m} ${x1} ${y1}`; }
+  ghost.setAttribute('d', d); trail.setAttribute('d', d);
+  len = trail.getTotalLength(); trail.style.strokeDasharray = len;
+  update();
+}
+function lengthAtY(y){ let lo=0, hi=len; for(let k=0;k<22;k++){ const mid=(lo+hi)/2; trail.getPointAtLength(mid).y < y ? lo=mid : hi=mid; } return lo; }
+function update(){
+  const r = road.getBoundingClientRect(), y = Math.max(0, Math.min(r.height, innerHeight*0.55 - r.top));
+  const l = lengthAtY(y), p = trail.getPointAtLength(l);
+  trail.style.strokeDashoffset = len - l;
+  marker.style.transform = `translate(${p.x-19}px,${p.y-19}px)`;
+  pins.forEach((pin,i) => pin.classList.toggle('on', pinY[i] <= y + 2));
+  updateMeter(y / r.height, r.top < innerHeight*0.6 && r.bottom > innerHeight*0.4);
+}
+let ticking = false;
+addEventListener('scroll', () => { if(!ticking){ ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); } }, {passive:true});
+new ResizeObserver(layout).observe(road);
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting || e.target.classList.contains('in')) return;
+  e.target.classList.add('in');
+  const i = stops.indexOf(e.target), t = e.target.querySelector('.tease');
+  if (t) setTimeout(() => typeOut(t, STOPS[i].tease), 700);
+}), {threshold:.25});
+stops.forEach(s => io.observe(s));
+
+/* letter at the end */
+document.getElementById('letterTo').textContent = CONFIG.her;
+document.getElementById('letterFrom').textContent = CONFIG.me;
+const mail = document.getElementById('mail');
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting){ mail.classList.add('open'); o.disconnect(); } }), {threshold:.6}).observe(mail);
+
+/* finale heart burst */
+const heart = c => `<svg viewBox="0 0 24 24"><path fill="${c}" d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.6 5c2.1 0 3.6 1.2 5.4 3.2C13.8 6.2 15.3 5 17.4 5 21 5 23 8.6 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>`;
+document.getElementById('love').addEventListener('click', e => {
+  const b = e.currentTarget.getBoundingClientRect(), cx = b.left + b.width/2, cy = b.top + b.height/2;
+  e.currentTarget.textContent = 'I knew you would.';
+  const f = document.getElementById('found');
+  if (found.size === totalSecrets){ f.textContent = 'And you found every secret. Of course you did.'; f.classList.add('show'); }
+  for (let i=0;i<46;i++){
+    const h = document.createElement('div'); h.className = 'burst';
+    h.innerHTML = heart(['#ff5e6c','#fff','#f7a94b','#ffb3c1'][i%4]);
+    h.style.left = cx-12+'px'; h.style.top = cy-12+'px'; document.body.appendChild(h);
+    const a = Math.random()*Math.PI*2, d = 120 + Math.random()*260, s = .6 + Math.random()*1.2;
+    h.animate([{transform:'translate(0,0) scale(.2)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-140}px) scale(${s}) rotate(${Math.random()*80-40}deg)`,opacity:0}],
+      {duration:1400+Math.random()*900,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish = () => h.remove();
+  }
+});
+
+/* ambient floating hearts & kisses in the background */
+const sky = document.createElement('div'); sky.className = 'sky'; document.body.appendChild(sky);
+const skyColors = ['#ff5e6c','#f7a94b','#ffb3c1','#ffffff'];
+for (let i = 0; i < 14; i++){
+  const s = document.createElement('span');
+  const size = 14 + Math.random()*20;
+  s.innerHTML = heart(skyColors[i % skyColors.length]);
+  s.style.cssText = `left:${Math.random()*96}%;width:${size}px;height:${size}px;
+    animation-duration:${10 + Math.random()*10}s;animation-delay:-${Math.random()*20}s`;
+  sky.appendChild(s);
+}
+
+/* twinkling sparkles around the hero sun */
+const hero = document.querySelector('.hero');
+for (let i = 0; i < 9; i++){
+  const sp = document.createElement('i'); sp.className = 'sparkle';
+  sp.style.left = (8 + Math.random()*84) + '%';
+  sp.style.top = (6 + Math.random()*46) + '%';
+  sp.style.animationDelay = (Math.random()*2.6) + 's';
+  sp.style.animationDuration = (2 + Math.random()*2.4) + 's';
+  hero.appendChild(sp);
+}
+
+/* tiny hearts wherever she taps */
+addEventListener('pointerdown', e => {
+  if (e.target.closest('button, .photo')) return;
+  for (let i = 0; i < 3; i++){
+    const h = document.createElement('div'); h.className = 'burst';
+    h.innerHTML = heart(['#ff5e6c','#f7a94b','#ffb3c1'][i]);
+    h.style.left = (e.clientX - 12) + 'px'; h.style.top = (e.clientY - 12) + 'px';
+    document.body.appendChild(h);
+    const a = -Math.PI/2 + (Math.random() - .5) * 1.2, d = 40 + Math.random()*70;
+    h.animate([
+      {transform:'translate(0,0) scale(.3)', opacity:1},
+      {transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px) scale(${.7 + Math.random()*.6}) rotate(${Math.random()*60 - 30}deg)`, opacity:0}
+    ], {duration:900 + Math.random()*500, easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish = () => h.remove();
+  }
+});
+</script>
+</body>
+</html>
